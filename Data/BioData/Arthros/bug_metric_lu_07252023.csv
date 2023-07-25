@@ -1,0 +1,265 @@
+Metric,Method,MetricForm,MetricForm_long,Group,Group_long,MetricDescription
+T_Aquatic_KRich,Trap,QC,,Aquatic,,
+T_Aquatic_Rich,Trap,Rich,Richness,Aquatic,aquatic arthropods,Richness of aquatic arthropods
+T_Aquatic_RelRich,Trap,RelRich,Relative richness,Aquatic,aquatic arthropods,Relative richness of aquatic arthropods
+T_Aquatic_KAbund,Trap,QC,,Aquatic,,
+T_Aquatic_Abund,Trap,Abund,Abundance,Aquatic,aquatic arthropods,Abundance of aquatic arthropods
+T_Aquatic_RelAbund,Trap,RelAbund,Relative abundance,Aquatic,aquatic arthropods,Relative abundance of aquatic arthropods
+V_Aquatic_KRich,Veg,QC,,Aquatic,,
+V_Aquatic_Rich,Veg,Rich,Richness,Aquatic,aquatic arthropods,Richness of aquatic arthropods
+V_Aquatic_RelRich,Veg,RelRich,Relative richness,Aquatic,aquatic arthropods,Relative richness of aquatic arthropods
+V_Aquatic_KAbund,Veg,QC,,Aquatic,,
+V_Aquatic_Abund,Veg,Abund,Abundance,Aquatic,aquatic arthropods,Abundance of aquatic arthropods
+V_Aquatic_RelAbund,Veg,RelAbund,Relative abundance,Aquatic,aquatic arthropods,Relative abundance of aquatic arthropods
+T_Araneae_Rich,Trap,Rich,Richness,Araneae,spiders,Richness of spiders
+T_Araneae_RelRich,Trap,RelRich,Relative richness,Araneae,spiders,Relative richness of spiders
+T_Araneae_Abund,Trap,Abund,Abundance,Araneae,spiders,Abundance of spiders
+T_Araneae_RelAbund,Trap,RelAbund,Relative abundance,Araneae,spiders,Relative abundance of spiders
+V_Araneae_Rich,Veg,Rich,Richness,Araneae,spiders,Richness of spiders
+V_Araneae_RelRich,Veg,RelRich,Relative richness,Araneae,spiders,Relative richness of spiders
+V_Araneae_Abund,Veg,Abund,Abundance,Araneae,spiders,Abundance of spiders
+V_Araneae_RelAbund,Veg,RelAbund,Relative abundance,Araneae,spiders,Relative abundance of spiders
+T_Araneae_Nat_Rich,Trap,Rich,Richness,Araneae_Nat,"native, non-synanthropic spiders","Richness of native, non-synanthropic spiders"
+T_Araneae_Nat_RelRich,Trap,RelRich,Relative richness,Araneae_Nat,"native, non-synanthropic spiders","Relative richness of native, non-synanthropic spiders"
+T_Araneae_Nat_Abund,Trap,Abund,Abundance,Araneae_Nat,"native, non-synanthropic spiders","Abundance of native, non-synanthropic spiders"
+T_Araneae_Nat_RelAbund,Trap,RelAbund,Relative abundance,Araneae_Nat,"native, non-synanthropic spiders","Relative abundance of native, non-synanthropic spiders"
+V_Araneae_Nat_Rich,Veg,Rich,Richness,Araneae_Nat,"native, non-synanthropic spiders","Richness of native, non-synanthropic spiders"
+V_Araneae_Nat_RelRich,Veg,RelRich,Relative richness,Araneae_Nat,"native, non-synanthropic spiders","Relative richness of native, non-synanthropic spiders"
+V_Araneae_Nat_Abund,Veg,Abund,Abundance,Araneae_Nat,"native, non-synanthropic spiders","Abundance of native, non-synanthropic spiders"
+V_Araneae_Nat_RelAbund,Veg,RelAbund,Relative abundance,Araneae_Nat,"native, non-synanthropic spiders","Relative abundance of native, non-synanthropic spiders"
+T_Arboreal_Rich,Trap,Rich,Richness,Arboreal,arboreal arthopods,Richness of arboreal arthopods
+T_Arboreal_RelRich,Trap,RelRich,Relative richness,Arboreal,arboreal arthopods,Relative richness of arboreal arthopods
+T_Arboreal_Abund,Trap,Abund,Abundance,Arboreal,arboreal arthopods,Abundance of arboreal arthopods
+T_Arboreal_RelAbund,Trap,RelAbund,Relative abundance,Arboreal,arboreal arthopods,Relative abundance of arboreal arthopods
+V_Arboreal_Rich,Veg,Rich,Richness,Arboreal,arboreal arthopods,Richness of arboreal arthopods
+V_Arboreal_RelRich,Veg,RelRich,Relative richness,Arboreal,arboreal arthopods,Relative richness of arboreal arthopods
+V_Arboreal_Abund,Veg,Abund,Abundance,Arboreal,arboreal arthopods,Abundance of arboreal arthopods
+V_Arboreal_RelAbund,Veg,RelAbund,Relative abundance,Arboreal,arboreal arthopods,Relative abundance of arboreal arthopods
+T_Arth_Rich,Trap,Rich,Richness,Arth,arthropods,Richness of arthropods
+T_Arth_Abund,Trap,Abund,Abundance,Arth,arthropods,Abundance of arthropods
+V_Arth_Rich,Veg,Rich,Richness,Arth,arthropods,Richness of arthropods
+V_Arth_Abund,Veg,Abund,Abundance,Arth,arthropods,Abundance of arthropods
+T_BodySize_KRich,Trap,QC,,BodySize,,
+T_BodySize_KAbund,Trap,QC,,BodySize,,
+T_BodySizeLargest,Trap,Other,,BodySize,,Largest body size
+T_BodySizeAverage,Trap,Other,,BodySize,,Average body size
+V_BodySize_KRich,Veg,QC,,BodySize,,
+V_BodySize_KAbund,Veg,QC,,BodySize,,
+V_BodySizeLargest,Veg,Other,,BodySize,,Largest body size
+V_BodySizeAverage,Veg,Other,,BodySize,,Average body size
+T_BodySizeLarge_Rich,Trap,Rich,Richness,BodySizeLarge,arthropods with large (>16 mm) body size,Richness of arthropods with large (>16 mm) body size
+T_BodySizeLarge_RelRich,Trap,RelRich,Relative richness,BodySizeLarge,arthropods with large (>16 mm) body size,Relative richness of arthropods with large (>16 mm) body size
+T_BodySizeLarge_Abund,Trap,Abund,Abundance,BodySizeLarge,arthropods with large (>16 mm) body size,Abundance of arthropods with large (>16 mm) body size
+T_BodySizeLarge_RelAbund,Trap,RelAbund,Relative abundance,BodySizeLarge,arthropods with large (>16 mm) body size,Relative abundance of arthropods with large (>16 mm) body size
+V_BodySizeLarge_Rich,Veg,Rich,Richness,BodySizeLarge,arthropods with large (>16 mm) body size,Richness of arthropods with large (>16 mm) body size
+V_BodySizeLarge_RelRich,Veg,RelRich,Relative richness,BodySizeLarge,arthropods with large (>16 mm) body size,Relative richness of arthropods with large (>16 mm) body size
+V_BodySizeLarge_Abund,Veg,Abund,Abundance,BodySizeLarge,arthropods with large (>16 mm) body size,Abundance of arthropods with large (>16 mm) body size
+V_BodySizeLarge_RelAbund,Veg,RelAbund,Relative abundance,BodySizeLarge,arthropods with large (>16 mm) body size,Relative abundance of arthropods with large (>16 mm) body size
+T_BodySizeMedium_Rich,Trap,Rich,Richness,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Richness of arthropods with medium (9 to 16 mm) body size
+T_BodySizeMedium_RelRich,Trap,RelRich,Relative richness,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Relative richness of arthropods with medium (9 to 16 mm) body size
+T_BodySizeMedium_Abund,Trap,Abund,Abundance,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Abundance of arthropods with medium (9 to 16 mm) body size
+T_BodySizeMedium_RelAbund,Trap,RelAbund,Relative abundance,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Relative abundance of arthropods with medium (9 to 16 mm) body size
+V_BodySizeMedium_Rich,Veg,Rich,Richness,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Richness of arthropods with medium (9 to 16 mm) body size
+V_BodySizeMedium_RelRich,Veg,RelRich,Relative richness,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Relative richness of arthropods with medium (9 to 16 mm) body size
+V_BodySizeMedium_Abund,Veg,Abund,Abundance,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Abundance of arthropods with medium (9 to 16 mm) body size
+V_BodySizeMedium_RelAbund,Veg,RelAbund,Relative abundance,BodySizeMedium,arthropods with medium (9 to 16 mm) body size,Relative abundance of arthropods with medium (9 to 16 mm) body size
+T_BodySizeSmall_Rich,Trap,Rich,Richness,BodySizeSmall,arthropods with small (<9 mm) body size,Richness of arthropods with small (<9 mm) body size
+T_BodySizeSmall_RelRich,Trap,RelRich,Relative richness,BodySizeSmall,arthropods with small (<9 mm) body size,Relative richness of arthropods with small (<9 mm) body size
+T_BodySizeSmall_Abund,Trap,Abund,Abundance,BodySizeSmall,arthropods with small (<9 mm) body size,Abundance of arthropods with small (<9 mm) body size
+T_BodySizeSmall_RelAbund,Trap,RelAbund,Relative abundance,BodySizeSmall,arthropods with small (<9 mm) body size,Relative abundance of arthropods with small (<9 mm) body size
+V_BodySizeSmall_Rich,Veg,Rich,Richness,BodySizeSmall,arthropods with small (<9 mm) body size,Richness of arthropods with small (<9 mm) body size
+V_BodySizeSmall_RelRich,Veg,RelRich,Relative richness,BodySizeSmall,arthropods with small (<9 mm) body size,Relative richness of arthropods with small (<9 mm) body size
+V_BodySizeSmall_Abund,Veg,Abund,Abundance,BodySizeSmall,arthropods with small (<9 mm) body size,Abundance of arthropods with small (<9 mm) body size
+V_BodySizeSmall_RelAbund,Veg,RelAbund,Relative abundance,BodySizeSmall,arthropods with small (<9 mm) body size,Relative abundance of arthropods with small (<9 mm) body size
+T_CAF_Rich,Trap,Rich,Richness,CAF,"beetles, spiders, and ants","Richness of beetles, spiders, and ants"
+T_CAF_RelRich,Trap,RelRich,Relative richness,CAF,"beetles, spiders, and ants","Relative richness of beetles, spiders, and ants"
+T_CAF_Abund,Trap,Abund,Abundance,CAF,"beetles, spiders, and ants","Abundance of beetles, spiders, and ants"
+T_CAF_RelAbund,Trap,RelAbund,Relative abundance,CAF,"beetles, spiders, and ants","Relative abundance of beetles, spiders, and ants"
+V_CAF_Rich,Veg,Rich,Richness,CAF,"beetles, spiders, and ants","Richness of beetles, spiders, and ants"
+V_CAF_RelRich,Veg,RelRich,Relative richness,CAF,"beetles, spiders, and ants","Relative richness of beetles, spiders, and ants"
+V_CAF_Abund,Veg,Abund,Abundance,CAF,"beetles, spiders, and ants","Abundance of beetles, spiders, and ants"
+V_CAF_RelAbund,Veg,RelAbund,Relative abundance,CAF,"beetles, spiders, and ants","Relative abundance of beetles, spiders, and ants"
+T_CAF_Nat_Rich,Trap,Rich,Richness,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Richness of native, non-synanthropic beetles, spiders, and ants"
+T_CAF_Nat_RelRich,Trap,RelRich,Relative richness,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Relative richness of native, non-synanthropic beetles, spiders, and ants"
+T_CAF_Nat_Abund,Trap,Abund,Abundance,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Abundance of native, non-synanthropic beetles, spiders, and ants"
+T_CAF_Nat_RelAbund,Trap,RelAbund,Relative abundance,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Relative abundance of native, non-synanthropic beetles, spiders, and ants"
+V_CAF_Nat_Rich,Veg,Rich,Richness,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Richness of native, non-synanthropic beetles, spiders, and ants"
+V_CAF_Nat_RelRich,Veg,RelRich,Relative richness,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Relative richness of native, non-synanthropic beetles, spiders, and ants"
+V_CAF_Nat_Abund,Veg,Abund,Abundance,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Abundance of native, non-synanthropic beetles, spiders, and ants"
+V_CAF_Nat_RelAbund,Veg,RelAbund,Relative abundance,CAF_Nat,"native, non-synanthropic beetles, spiders, and ants","Relative abundance of native, non-synanthropic beetles, spiders, and ants"
+T_Coleo_Rich,Trap,Rich,Richness,Coleo,beetles,Richness of beetles
+T_Coleo_RelRich,Trap,RelRich,Relative richness,Coleo,beetles,Relative richness of beetles
+T_Coleo_Abund,Trap,Abund,Abundance,Coleo,beetles,Abundance of beetles
+T_Coleo_RelAbund,Trap,RelAbund,Relative abundance,Coleo,beetles,Relative abundance of beetles
+V_Coleo_Rich,Veg,Rich,Richness,Coleo,beetles,Richness of beetles
+V_Coleo_RelRich,Veg,RelRich,Relative richness,Coleo,beetles,Relative richness of beetles
+V_Coleo_Abund,Veg,Abund,Abundance,Coleo,beetles,Abundance of beetles
+V_Coleo_RelAbund,Veg,RelAbund,Relative abundance,Coleo,beetles,Relative abundance of beetles
+T_DetrFung_Rich,Trap,Rich,Richness,DetrFung,detritivores and fungivores,Richness of detritivores and fungivores
+T_DetrFung_RelRich,Trap,RelRich,Relative richness,DetrFung,detritivores and fungivores,Relative richness of detritivores and fungivores
+T_DetrFung_Abund,Trap,Abund,Abundance,DetrFung,detritivores and fungivores,Abundance of detritivores and fungivores
+T_DetrFung_RelAbund,Trap,RelAbund,Relative abundance,DetrFung,detritivores and fungivores,Relative abundance of detritivores and fungivores
+V_DetrFung_Rich,Veg,Rich,Richness,DetrFung,detritivores and fungivores,Richness of detritivores and fungivores
+V_DetrFung_RelRich,Veg,RelRich,Relative richness,DetrFung,detritivores and fungivores,Relative richness of detritivores and fungivores
+V_DetrFung_Abund,Veg,Abund,Abundance,DetrFung,detritivores and fungivores,Abundance of detritivores and fungivores
+V_DetrFung_RelAbund,Veg,RelAbund,Relative abundance,DetrFung,detritivores and fungivores,Relative abundance of detritivores and fungivores
+T_Detritivore_Rich,Trap,Rich,Richness,Detritivore,detritivores,Richness of detritivores
+T_Detritivore_RelRich,Trap,RelRich,Relative richness,Detritivore,detritivores,Relative richness of detritivores
+T_Detritivore_Abund,Trap,Abund,Abundance,Detritivore,detritivores,Abundance of detritivores
+T_Detritivore_RelAbund,Trap,RelAbund,Relative abundance,Detritivore,detritivores,Relative abundance of detritivores
+V_Detritivore_Rich,Veg,Rich,Richness,Detritivore,detritivores,Richness of detritivores
+V_Detritivore_RelRich,Veg,RelRich,Relative richness,Detritivore,detritivores,Relative richness of detritivores
+V_Detritivore_Abund,Veg,Abund,Abundance,Detritivore,detritivores,Abundance of detritivores
+V_Detritivore_RelAbund,Veg,RelAbund,Relative abundance,Detritivore,detritivores,Relative abundance of detritivores
+T_Dispersal_KRich,Trap,QC,,Dispersal,,
+T_Dispersal_KAbund,Trap,QC,,Dispersal,,
+V_Dispersal_KRich,Veg,QC,,Dispersal,,
+V_Dispersal_KAbund,Veg,QC,,Dispersal,,
+T_DisperserGood_Rich,Trap,Rich,Richness,DisperserGood,good disperers,Richness of good disperers
+T_DisperserGood_RelRich,Trap,RelRich,Relative richness,DisperserGood,good disperers,Relative richness of good disperers
+T_DisperserGood_Abund,Trap,Abund,Abundance,DisperserGood,good disperers,Abundance of good disperers
+T_DisperserGood_RelAbund,Trap,RelAbund,Relative abundance,DisperserGood,good disperers,Relative abundance of good disperers
+V_DisperserGood_Rich,Veg,Rich,Richness,DisperserGood,good disperers,Richness of good disperers
+V_DisperserGood_RelRich,Veg,RelRich,Relative richness,DisperserGood,good disperers,Relative richness of good disperers
+V_DisperserGood_Abund,Veg,Abund,Abundance,DisperserGood,good disperers,Abundance of good disperers
+V_DisperserGood_RelAbund,Veg,RelAbund,Relative abundance,DisperserGood,good disperers,Relative abundance of good disperers
+T_DisperserPoor_Rich,Trap,Rich,Richness,DisperserPoor,poor dispersers,Richness of poor dispersers
+T_DisperserPoor_RelRich,Trap,RelRich,Relative richness,DisperserPoor,poor dispersers,Relative richness of poor dispersers
+T_DisperserPoor_Abund,Trap,Abund,Abundance,DisperserPoor,poor dispersers,Abundance of poor dispersers
+T_DisperserPoor_RelAbund,Trap,RelAbund,Relative abundance,DisperserPoor,poor dispersers,Relative abundance of poor dispersers
+V_DisperserPoor_Rich,Veg,Rich,Richness,DisperserPoor,poor dispersers,Richness of poor dispersers
+V_DisperserPoor_RelRich,Veg,RelRich,Relative richness,DisperserPoor,poor dispersers,Relative richness of poor dispersers
+V_DisperserPoor_Abund,Veg,Abund,Abundance,DisperserPoor,poor dispersers,Abundance of poor dispersers
+V_DisperserPoor_RelAbund,Veg,RelAbund,Relative abundance,DisperserPoor,poor dispersers,Relative abundance of poor dispersers
+T_FFG_KRich,Trap,QC,,FFG,,
+T_FFG_KAbund,Trap,QC,,FFG,,
+V_FFG_KRich,Veg,QC,,FFG,,
+V_FFG_KAbund,Veg,QC,,FFG,,
+T_FFG_d_KRich,Trap,QC,,FFG_d,,
+T_FFG_d_KAbund,Trap,QC,,FFG_d,,
+V_FFG_d_KRich,Veg,QC,,FFG_d,,
+V_FFG_d_KAbund,Veg,QC,,FFG_d,,
+T_Formicidae_Rich,Trap,Rich,Richness,Formicidae,ants,Richness of ants
+T_Formicidae_RelRich,Trap,RelRich,Relative richness,Formicidae,ants,Relative richness of ants
+T_Formicidae_Abund,Trap,Abund,Abundance,Formicidae,ants,Abundance of ants
+T_Formicidae_RelAbund,Trap,RelAbund,Relative abundance,Formicidae,ants,Relative abundance of ants
+V_Formicidae_Rich,Veg,Rich,Richness,Formicidae,ants,Richness of ants
+V_Formicidae_RelRich,Veg,RelRich,Relative richness,Formicidae,ants,Relative richness of ants
+V_Formicidae_Abund,Veg,Abund,Abundance,Formicidae,ants,Abundance of ants
+V_Formicidae_RelAbund,Veg,RelAbund,Relative abundance,Formicidae,ants,Relative abundance of ants
+T_Formicidae_Nat_Rich,Trap,Rich,Richness,Formicidae_Nat,"native, non-synanthropic ants","Richness of native, non-synanthropic ants"
+T_Formicidae_Nat_RelRich,Trap,RelRich,Relative richness,Formicidae_Nat,"native, non-synanthropic ants","Relative richness of native, non-synanthropic ants"
+T_Formicidae_Nat_Abund,Trap,Abund,Abundance,Formicidae_Nat,"native, non-synanthropic ants","Abundance of native, non-synanthropic ants"
+T_Formicidae_Nat_RelAbund,Trap,RelAbund,Relative abundance,Formicidae_Nat,"native, non-synanthropic ants","Relative abundance of native, non-synanthropic ants"
+V_Formicidae_Nat_Rich,Veg,Rich,Richness,Formicidae_Nat,"native, non-synanthropic ants","Richness of native, non-synanthropic ants"
+V_Formicidae_Nat_RelRich,Veg,RelRich,Relative richness,Formicidae_Nat,"native, non-synanthropic ants","Relative richness of native, non-synanthropic ants"
+V_Formicidae_Nat_Abund,Veg,Abund,Abundance,Formicidae_Nat,"native, non-synanthropic ants","Abundance of native, non-synanthropic ants"
+V_Formicidae_Nat_RelAbund,Veg,RelAbund,Relative abundance,Formicidae_Nat,"native, non-synanthropic ants","Relative abundance of native, non-synanthropic ants"
+T_Fungivore_Rich,Trap,Rich,Richness,Fungivore,fungivores,Richness of fungivores
+T_Fungivore_RelRich,Trap,RelRich,Relative richness,Fungivore,fungivores,Relative richness of fungivores
+T_Fungivore_Abund,Trap,Abund,Abundance,Fungivore,fungivores,Abundance of fungivores
+T_Fungivore_RelAbund,Trap,RelAbund,Relative abundance,Fungivore,fungivores,Relative abundance of fungivores
+V_Fungivore_Rich,Veg,Rich,Richness,Fungivore,fungivores,Richness of fungivores
+V_Fungivore_RelRich,Veg,RelRich,Relative richness,Fungivore,fungivores,Relative richness of fungivores
+V_Fungivore_Abund,Veg,Abund,Abundance,Fungivore,fungivores,Abundance of fungivores
+V_Fungivore_RelAbund,Veg,RelAbund,Relative abundance,Fungivore,fungivores,Relative abundance of fungivores
+T_Ground_Rich,Trap,Rich,Richness,Ground,ground or soil dwellers,Richness of ground or soil dwellers
+T_Ground_RelRich,Trap,RelRich,Relative richness,Ground,ground or soil dwellers,Relative richness of ground or soil dwellers
+T_Ground_Abund,Trap,Abund,Abundance,Ground,ground or soil dwellers,Abundance of ground or soil dwellers
+T_Ground_RelAbund,Trap,RelAbund,Relative abundance,Ground,ground or soil dwellers,Relative abundance of ground or soil dwellers
+V_Ground_Rich,Veg,Rich,Richness,Ground,ground or soil dwellers,Richness of ground or soil dwellers
+V_Ground_RelRich,Veg,RelRich,Relative richness,Ground,ground or soil dwellers,Relative richness of ground or soil dwellers
+V_Ground_Abund,Veg,Abund,Abundance,Ground,ground or soil dwellers,Abundance of ground or soil dwellers
+V_Ground_RelAbund,Veg,RelAbund,Relative abundance,Ground,ground or soil dwellers,Relative abundance of ground or soil dwellers
+T_Herbaceous_Rich,Trap,Rich,Richness,Herbaceous,herbaceous layer dwellers,Richness of herbaceous layer dwellers
+T_Herbaceous_RelRich,Trap,RelRich,Relative richness,Herbaceous,herbaceous layer dwellers,Relative richness of herbaceous layer dwellers
+T_Herbaceous_Abund,Trap,Abund,Abundance,Herbaceous,herbaceous layer dwellers,Abundance of herbaceous layer dwellers
+T_Herbaceous_RelAbund,Trap,RelAbund,Relative abundance,Herbaceous,herbaceous layer dwellers,Relative abundance of herbaceous layer dwellers
+V_Herbaceous_Rich,Veg,Rich,Richness,Herbaceous,herbaceous layer dwellers,Richness of herbaceous layer dwellers
+V_Herbaceous_RelRich,Veg,RelRich,Relative richness,Herbaceous,herbaceous layer dwellers,Relative richness of herbaceous layer dwellers
+V_Herbaceous_Abund,Veg,Abund,Abundance,Herbaceous,herbaceous layer dwellers,Abundance of herbaceous layer dwellers
+V_Herbaceous_RelAbund,Veg,RelAbund,Relative abundance,Herbaceous,herbaceous layer dwellers,Relative abundance of herbaceous layer dwellers
+T_Insect_Rich,Trap,Rich,Richness,Insect,insects,Richness of insects
+T_Insect_RelRich,Trap,RelRich,Relative richness,Insect,insects,Relative richness of insects
+T_Insect_Abund,Trap,Abund,Abundance,Insect,insects,Abundance of insects
+T_Insect_RelAbund,Trap,RelAbund,Relative abundance,Insect,insects,Relative abundance of insects
+V_Insect_Rich,Veg,Rich,Richness,Insect,insects,Richness of insects
+V_Insect_RelRich,Veg,RelRich,Relative richness,Insect,insects,Relative richness of insects
+V_Insect_Abund,Veg,Abund,Abundance,Insect,insects,Abundance of insects
+V_Insect_RelAbund,Veg,RelAbund,Relative abundance,Insect,insects,Relative abundance of insects
+T_LinEpi_Rich,Trap,Rich,Richness,LinEpi,Argentine ants,Richness of Argentine ants
+T_LinEpi_RelRich,Trap,RelRich,Relative richness,LinEpi,Argentine ants,Relative richness of Argentine ants
+T_LinEpi_Abund,Trap,Abund,Abundance,LinEpi,Argentine ants,Abundance of Argentine ants
+T_LinEpi_RelAbund,Trap,RelAbund,Relative abundance,LinEpi,Argentine ants,Relative abundance of Argentine ants
+V_LinEpi_Rich,Veg,Rich,Richness,LinEpi,Argentine ants,Richness of Argentine ants
+V_LinEpi_RelRich,Veg,RelRich,Relative richness,LinEpi,Argentine ants,Relative richness of Argentine ants
+V_LinEpi_Abund,Veg,Abund,Abundance,LinEpi,Argentine ants,Abundance of Argentine ants
+V_LinEpi_RelAbund,Veg,RelAbund,Relative abundance,LinEpi,Argentine ants,Relative abundance of Argentine ants
+T_Noninsect_Rich,Trap,Rich,Richness,Noninsect,non-insects,Richness of non-insects
+T_Noninsect_RelRich,Trap,RelRich,Relative richness,Noninsect,non-insects,Relative richness of non-insects
+T_Noninsect_Abund,Trap,Abund,Abundance,Noninsect,non-insects,Abundance of non-insects
+T_Noninsect_RelAbund,Trap,RelAbund,Relative abundance,Noninsect,non-insects,Relative abundance of non-insects
+V_Noninsect_Rich,Veg,Rich,Richness,Noninsect,non-insects,Richness of non-insects
+V_Noninsect_RelRich,Veg,RelRich,Relative richness,Noninsect,non-insects,Relative richness of non-insects
+V_Noninsect_Abund,Veg,Abund,Abundance,Noninsect,non-insects,Abundance of non-insects
+V_Noninsect_RelAbund,Veg,RelAbund,Relative abundance,Noninsect,non-insects,Relative abundance of non-insects
+T_Nonnat_KRich,Trap,QC,,Nonnat,,
+T_Nonnat_Rich,Trap,Rich,Richness,Nonnat,non-native taxa,Richness of non-native taxa
+T_Nonnat_RelRich,Trap,RelRich,Relative richness,Nonnat,non-native taxa,Relative richness of non-native taxa
+T_Nonnat_KAbund,Trap,QC,,Nonnat,,
+T_Nonnat_Abund,Trap,Abund,Abundance,Nonnat,non-native taxa,Abundance of non-native taxa
+T_Nonnat_RelAbund,Trap,RelAbund,Relative abundance,Nonnat,non-native taxa,Relative abundance of non-native taxa
+V_Nonnat_KRich,Veg,QC,,Nonnat,,
+V_Nonnat_Rich,Veg,Rich,Richness,Nonnat,non-native taxa,Richness of non-native taxa
+V_Nonnat_RelRich,Veg,RelRich,Relative richness,Nonnat,non-native taxa,Relative richness of non-native taxa
+V_Nonnat_KAbund,Veg,QC,,Nonnat,,
+V_Nonnat_Abund,Veg,Abund,Abundance,Nonnat,non-native taxa,Abundance of non-native taxa
+V_Nonnat_RelAbund,Veg,RelAbund,Relative abundance,Nonnat,non-native taxa,Relative abundance of non-native taxa
+T_NonnatSynanth_KRich,Trap,QC,,NonnatSynanth,,
+T_NonnatSynanth_Rich,Trap,Rich,Richness,NonnatSynanth,"non-native, non-synanthropic taxa","Richness of non-native, non-synanthropic taxa"
+T_NonnatSynanth_RelRich,Trap,RelRich,Relative richness,NonnatSynanth,"non-native, non-synanthropic taxa","Relative richness of non-native, non-synanthropic taxa"
+T_NonnatSynanth_KAbund,Trap,QC,,NonnatSynanth,,
+T_NonnatSynanth_Abund,Trap,Abund,Abundance,NonnatSynanth,"non-native, non-synanthropic taxa","Abundance of non-native, non-synanthropic taxa"
+T_NonnatSynanth_RelAbund,Trap,RelAbund,Relative abundance,NonnatSynanth,"non-native, non-synanthropic taxa","Relative abundance of non-native, non-synanthropic taxa"
+V_NonnatSynanth_KRich,Veg,QC,,NonnatSynanth,,
+V_NonnatSynanth_Rich,Veg,Rich,Richness,NonnatSynanth,"non-native, non-synanthropic taxa","Richness of non-native, non-synanthropic taxa"
+V_NonnatSynanth_RelRich,Veg,RelRich,Relative richness,NonnatSynanth,"non-native, non-synanthropic taxa","Relative richness of non-native, non-synanthropic taxa"
+V_NonnatSynanth_KAbund,Veg,QC,,NonnatSynanth,,
+V_NonnatSynanth_Abund,Veg,Abund,Abundance,NonnatSynanth,"non-native, non-synanthropic taxa","Abundance of non-native, non-synanthropic taxa"
+V_NonnatSynanth_RelAbund,Veg,RelAbund,Relative abundance,NonnatSynanth,"non-native, non-synanthropic taxa","Relative abundance of non-native, non-synanthropic taxa"
+T_Predator_Rich,Trap,Rich,Richness,Predator,predators,Richness of predators
+T_Predator_RelRich,Trap,RelRich,Relative richness,Predator,predators,Relative richness of predators
+T_Predator_Abund,Trap,Abund,Abundance,Predator,predators,Abundance of predators
+T_Predator_RelAbund,Trap,RelAbund,Relative abundance,Predator,predators,Relative abundance of predators
+V_Predator_Rich,Veg,Rich,Richness,Predator,predators,Richness of predators
+V_Predator_RelRich,Veg,RelRich,Relative richness,Predator,predators,Relative richness of predators
+V_Predator_Abund,Veg,Abund,Abundance,Predator,predators,Abundance of predators
+V_Predator_RelAbund,Veg,RelAbund,Relative abundance,Predator,predators,Relative abundance of predators
+T_PredatorGround_Rich,Trap,Rich,Richness,PredatorGround,ground-dwelling predators,Richness of ground-dwelling predators
+T_PredatorGround_RelRich,Trap,RelRich,Relative richness,PredatorGround,ground-dwelling predators,Relative richness of ground-dwelling predators
+T_PredatorGround_Abund,Trap,Abund,Abundance,PredatorGround,ground-dwelling predators,Abundance of ground-dwelling predators
+T_PredatorGround_RelAbund,Trap,RelAbund,Relative abundance,PredatorGround,ground-dwelling predators,Relative abundance of ground-dwelling predators
+V_PredatorGround_Rich,Veg,Rich,Richness,PredatorGround,ground-dwelling predators,Richness of ground-dwelling predators
+V_PredatorGround_RelRich,Veg,RelRich,Relative richness,PredatorGround,ground-dwelling predators,Relative richness of ground-dwelling predators
+V_PredatorGround_Abund,Veg,Abund,Abundance,PredatorGround,ground-dwelling predators,Abundance of ground-dwelling predators
+V_PredatorGround_RelAbund,Veg,RelAbund,Relative abundance,PredatorGround,ground-dwelling predators,Relative abundance of ground-dwelling predators
+T_StratumFinal_KRich,Trap,QC,,StratumFinal,,
+T_StratumFinal_KAbund,Trap,QC,,StratumFinal,,
+V_StratumFinal_KRich,Veg,QC,,StratumFinal,,
+V_StratumFinal_KAbund,Veg,QC,,StratumFinal,,
+T_TempTol_KRich,Trap,QC,,TempTol,,
+T_TempTol_KAbund,Trap,QC,,TempTol,,
+T_TempTolAverage,Trap,Other,,TempTol,,Average temperature tolerance
+T_TempTolMax,Trap,Other,,TempTol,,Maximum temperature tolerance
+V_TempTol_KRich,Veg,QC,,TempTol,,
+V_TempTol_KAbund,Veg,QC,,TempTol,,
+V_TempTolMax,Veg,Other,,TempTol,,Maximum temperature tolerance
+V_TempTolAverage,Veg,Other,,TempTol,,Average temperature tolerance
+T_TempTolHigh_Rich,Trap,Rich,Richness,TempTolHigh,arthropods with high temperature tolerance,Richness of arthropods with high temperature tolerance
+T_TempTolHigh_RelRich,Trap,RelRich,Relative richness,TempTolHigh,arthropods with high temperature tolerance,Relative richness of arthropods with high temperature tolerance
+T_TempTolHigh_Abund,Trap,Abund,Abundance,TempTolHigh,arthropods with high temperature tolerance,Abundance of arthropods with high temperature tolerance
+T_TempTolHigh_RelAbund,Trap,RelAbund,Relative abundance,TempTolHigh,arthropods with high temperature tolerance,Relative abundance of arthropods with high temperature tolerance
+V_TempTolHigh_Rich,Veg,Rich,Richness,TempTolHigh,arthropods with high temperature tolerance,Richness of arthropods with high temperature tolerance
+V_TempTolHigh_Abund,Veg,Abund,Abundance,TempTolHigh,arthropods with high temperature tolerance,Abundance of arthropods with high temperature tolerance
+V_TempTolHigh_RelRich,Veg,RelRich,Relative richness,TempTolHigh,arthropods with high temperature tolerance,Relative richness of arthropods with high temperature tolerance
+V_TempTolHigh_RelAbund,Veg,RelAbund,Relative abundance,TempTolHigh,arthropods with high temperature tolerance,Relative abundance of arthropods with high temperature tolerance
