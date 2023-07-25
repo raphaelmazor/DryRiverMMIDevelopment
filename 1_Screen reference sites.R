@@ -10,6 +10,7 @@ library(ggplot2)
 #Load GIS data
 
 #Load habitat data
+phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07252023.csv")
 
 #Load bio data, for assessing sensitivity
 arthro_df<-read_csv("Data/BioData/Arthros/arthropod_metircs_07252023.csv")
