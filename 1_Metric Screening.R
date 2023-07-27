@@ -61,35 +61,50 @@ bryo_df_long<-bryo_df %>%
          Metric= paste0("B_",Metric_short))
 
 
+# 
+# junk<-lm(MetricValue~StressLevel, 
+#          data=arth_df_long %>% na.omit() %>%
+#            filter(MetricValue>-Inf) %>%
+#            left_join(ref_sites %>% select(StationCode, StressLevel)))
+# junk<-t.test(
+#   MetricValue~StressLevel, 
+#   data=
+#     arth_df_long %>% 
+#     filter(MetricValue>-Inf) %>%
+#     inner_join(
+#       ref_sites %>% 
+#         select(StationCode, StressLevel) ) %>%
+#     filter(StressLevel %in% c("Low","High"))
+# )
+# junk %>% broom::glance()
+# 
+# junk2<-junk %>% broom::glance()
+# junk2$f
+getmode <- function(v) {
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
 
-junk<-lm(MetricValue~StressLevel, 
-         data=arth_df_long %>% na.omit() %>%
-           filter(MetricValue>-Inf) %>%
-           left_join(ref_sites %>% select(StationCode, StressLevel)))
-junk<-t.test(
-  MetricValue~StressLevel, 
-  data=
-    arth_df_long %>% 
-    filter(MetricValue>-Inf) %>%
-    inner_join(
-      ref_sites %>% 
-        select(StationCode, StressLevel) ) %>%
-    filter(StressLevel %in% c("Low","High"))
-)
-junk %>% broom::glance()
+getmodes <- function(x) {
+  ux <- unique(x)
+  tab <- tabulate(match(x, ux))
+  ux[tab == max(tab)]
+}
 
-junk2<-junk %>% broom::glance()
-junk2$f
-
-metric_summary<-arth_df_long %>%
+bio_data_df<-arth_df_long %>%
   bind_rows(bryo_df_long) %>%
   filter(MetricValue>-Inf) %>%
   filter(!str_detect(Metric_short, "_KRich")) %>%
   filter(!str_detect(Metric_short, "_KAbund")) %>%
-  left_join(ref_sites %>% select(StationCode, StressLevel)) %>%
+  left_join(ref_sites %>% select(StationCode, StressLevel))
+
+metric_summary<-bio_data_df  %>%
   group_by(Metric, Metric_short, MetricGroup, MetricForm) %>%
   summarise(
+    n = length(MetricValue),
     unique_values = unique(MetricValue) %>% length(),
+    PctDom = sum(MetricValue %in% getmode(MetricValue))/length(MetricValue),
+    
     F_stat = lm(MetricValue~StressLevel) %>%
       broom::glance() %>%
       select(statistic) %>% 
@@ -102,6 +117,7 @@ metric_summary<-arth_df_long %>%
     #   unlist()
   ) %>%
   ungroup() 
+
 
 metric_summary$t_stat <-sapply(1:nrow(metric_summary), function(i){
   vals.i=metric_summary$unique_values[i]
