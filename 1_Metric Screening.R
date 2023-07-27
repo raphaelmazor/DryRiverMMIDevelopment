@@ -45,6 +45,7 @@ arth_df_long<-arthro_df %>%
   filter(!str_detect(Metric,"KAbund")) %>%
   inner_join(bug_mets_lu %>% select(Metric, Method, MetricForm, MetricGroup=Group))
 
+bryo_mets_lu<-read_csv("Data/BioData/Bryos/bryo_metric_lu.csv")
 bryo_df<-read_csv("Data/BioData/Bryos/bryo_metrics_07262023_v2.csv")
 # bryo_df<-read_csv("Data/BioData/Bryos/Final_Bryophyte_Output.csv") 
 skimr::skim(bryo_df)
