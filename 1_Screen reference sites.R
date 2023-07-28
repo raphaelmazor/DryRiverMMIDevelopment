@@ -12,7 +12,7 @@ gis_df<-read_csv("Data/NonBioData/GIS/All_Sites_Bug_Bryo_RB4_RB9_GIS.csv")
 # skimr::skim(gis_df)
 
 #Load habitat data
-phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07252023.csv")
+phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07272023.csv")
 
 #Load bio data, for assessing sensitivity
 arthro_df<-read_csv("Data/BioData/Arthros/arthropod_metircs_07252023.csv")
@@ -203,7 +203,7 @@ phabstress_df %>%
 # 
 # cutoffs_df %>% filter(Low_n>=12)
 
-phab_df<-phab_df %>%
+phab_df2<-phab_df %>%
   mutate(ReachStress = case_when(HumanActivity_Ext<12 &
                                    HumanActivity_Int<12 & 
                                    # HumanActivity_Prox<8 &
@@ -221,7 +221,8 @@ ggplot(data=phabstress_df, aes(x=PHABMet_value))+
   geom_histogram(aes(fill=PHABMet))
 
 
-
+phab_df %>%
+  skimr::skim()
 
 library(corrplot)
 
@@ -282,8 +283,9 @@ hab_stress_mets<-c("HumanActivity_Ext",	"HumanActivity_Int",	"HumanActivity_Prox
 phabstress_df2<-phab_df %>%
   mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
   select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
+  # skimr::skim()
   #just work with the stress measures
-  transmute(StationCode,
+  mutate(StationCode,
             # SampleDate,
             ReachStress = case_when(HumanActivity_Ext<12 &
                                       HumanActivity_Int<12 & 
@@ -295,12 +297,11 @@ phabstress_df2<-phab_df %>%
                                     HumanActivity_Prox_SWAMP>=10~2,
                                     T~1 )) %>%
   group_by(StationCode) %>%
-  summarise(ReachStressMax = max(ReachStress, na.rm=T)) %>%
-  ungroup() %>%
-  mutate(ReachStress_Class = case_when(ReachStressMax==0~"Low",
-                                       ReachStressMax==1~"Med",
-                                       ReachStressMax==0~"High",
-                                       T~"Other"))
+  summarise(ReachStressMax = max(ReachStress, na.rm=T),
+            HumanActivity_Int_Max =max(HumanActivity_Int, na.rm = T),
+            HumanActivity_Ext_Max =max(HumanActivity_Ext, na.rm = T),
+            HumanActivity_Prox_Max =max(HumanActivity_Prox_SWAMP, na.rm = T))  %>%
+  ungroup()
 
 gis_stress_df<-gis_df %>%
   # names()
@@ -344,6 +345,7 @@ site_status_df<-tibble(
 site_status_df %>%
   group_by(RefStatusFinal) %>% tally()
 
+ggplot(data=site_status_df)
 
 write_csv(site_status_df, "Data/NonBioData/site_status_df.csv")
 
