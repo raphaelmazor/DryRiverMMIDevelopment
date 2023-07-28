@@ -8,18 +8,40 @@ library(ggplot2)
 ######LOAD DATA######
 
 #Load GIS data
+gis_df<-read_csv("Data/NonBioData/GIS/All_Sites_Bug_Bryo_RB4_RB9_GIS.csv")
+# skimr::skim(gis_df)
 
 #Load habitat data
 phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07252023.csv")
 
 #Load bio data, for assessing sensitivity
 arthro_df<-read_csv("Data/BioData/Arthros/arthropod_metircs_07252023.csv")
+bryo_df<-read_csv("Data/BioData/Bryos/bryo_metrics_07262023_v2.csv")
 
 
 bug_mets_lu<-read_csv("Data/BioData/Arthros/bug_metric_lu_07252023.csv") %>%
   mutate(Metric_short=str_sub(Metric, 3, nchar(Metric)))
 # bug_mets<-bug_mets_lu$Metric_short
-  
+setdiff(gis_df$StationCode, phab_df$StationCode)
+setdiff(phab_df$StationCode, gis_df$StationCode ) 
+
+setdiff(gis_df$StationCode, arthro_df$StationCode)
+setdiff(arthro_df$StationCode, gis_df$StationCode ) 
+
+setdiff(gis_df$StationCode, bryo_df$StationCode)
+setdiff(bryo_df$StationCode, gis_df$StationCode ) 
+
+phab_df$StationCode %>%
+  setdiff(arthro_df$StationCode) %>%
+  setdiff(bryo_df$StationCode)
+
+arthro_df$StationCode %>%
+  setdiff(phab_df$StationCode) %>%
+  setdiff(bryo_df$StationCode)
+
+bryo_df$StationCode %>%
+  setdiff(phab_df$StationCode) %>%
+  setdiff(arthro_df$StationCode)
 
 # bug_mets<-c("Arth_Rich", "Arth_Abund", 
 #             "Insect_Rich", "Insect_RelRich","Insect_Abund", "Insect_RelAbund", 
@@ -62,8 +84,8 @@ arth_df_long<-arthro_df %>%
                values_to="BugMet_value", 
                values_drop_na = T) %>%
   mutate(Metric = case_when(CollectionMethodCode=="TerInvt_T_DS"~paste0("T_",Metric_short),
-                             CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",Metric_short),
-                             T~Metric_short)) %>%
+                            CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",Metric_short),
+                            T~Metric_short)) %>%
   #Get rid of these interim calc metrics
   filter(!str_detect(Metric,"KRich")) %>%
   filter(!str_detect(Metric,"KAbund")) %>%
@@ -105,8 +127,8 @@ phabstress_df<-phab_df %>%
 arth_phabstress<-inner_join(arth_df_long, phabstress_df, relationship = "many-to-many")
 
 phabstress_v_bugmets_richness<-ggplot(data=arth_phabstress %>%
-         filter(MetricForm=="Rich") ,
-       aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+                                        filter(MetricForm=="Rich") ,
+                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
   geom_smooth(aes(color=PHABMet),  se=F)+
   facet_grid(MetricGroup~Method, scales="free")+
   theme_bw()+
@@ -115,8 +137,8 @@ phabstress_v_bugmets_richness<-ggplot(data=arth_phabstress %>%
 ggsave(phabstress_v_bugmets_richness, filename="Figures/phabstress_v_bugmets_richness.png", height=8, width=8)
 
 phabstress_v_bugmets_relrichness<-ggplot(data=arth_phabstress %>%
-                                        filter(MetricForm=="RelRich") ,
-                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+                                           filter(MetricForm=="RelRich") ,
+                                         aes(x=PHABMet_value_rescaled, y=BugMet_value))+
   geom_smooth(aes(color=PHABMet),  se=F)+
   facet_grid(MetricGroup~Method, scales="free")+
   theme_bw()+
@@ -125,8 +147,8 @@ phabstress_v_bugmets_relrichness<-ggplot(data=arth_phabstress %>%
 ggsave(phabstress_v_bugmets_relrichness, filename="Figures/phabstress_v_bugmets_relrichness.png", height=8, width=8)
 
 phabstress_v_bugmets_abund<-ggplot(data=arth_phabstress %>%
-                                           filter(MetricForm=="Abund") ,
-                                         aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+                                     filter(MetricForm=="Abund") ,
+                                   aes(x=PHABMet_value_rescaled, y=BugMet_value))+
   geom_smooth(aes(color=PHABMet),  se=F)+
   facet_grid(MetricGroup~Method, scales="free")+
   theme_bw()+
@@ -135,8 +157,8 @@ phabstress_v_bugmets_abund<-ggplot(data=arth_phabstress %>%
 ggsave(phabstress_v_bugmets_abund, filename="Figures/phabstress_v_bugmets_abund.png", height=8, width=8)
 
 phabstress_v_bugmets_relabund<-ggplot(data=arth_phabstress %>%
-                                     filter(MetricForm=="RelAbund") ,
-                                   aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+                                        filter(MetricForm=="RelAbund") ,
+                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
   geom_smooth(aes(color=PHABMet),  se=F)+
   facet_grid(MetricGroup~Method, scales="free")+
   theme_bw()+
@@ -145,8 +167,8 @@ phabstress_v_bugmets_relabund<-ggplot(data=arth_phabstress %>%
 ggsave(phabstress_v_bugmets_relabund, filename="Figures/phabstress_v_bugmets_relabund.png", height=8, width=8)
 
 phabstress_v_bugmets_other<-ggplot(data=arth_phabstress %>%
-                                        filter(MetricForm=="Other") ,
-                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+                                     filter(MetricForm=="Other") ,
+                                   aes(x=PHABMet_value_rescaled, y=BugMet_value))+
   geom_smooth(aes(color=PHABMet),  se=F)+
   facet_grid(MetricGroup~Method, scales="free")+
   theme_bw()+
@@ -203,9 +225,9 @@ ggplot(data=phabstress_df, aes(x=PHABMet_value))+
 
 library(corrplot)
 
-  
-  
-  ggplot(aes(x=PHABMet_value, y=BugMet_value))+
+
+
+ggplot(aes(x=PHABMet_value, y=BugMet_value))+
   # geom_point()+
   geom_smooth(aes(color=PHABMet), method=lm)+
   facet_wrap(~BugMet, scales="free")+
@@ -255,4 +277,81 @@ phab_df %>%
 #Replace w1_hall with best phab metric(s)
 #Adjust gis screens if necessary based on observed relationships with biology
 
+hab_stress_mets<-c("HumanActivity_Ext",	"HumanActivity_Int",	"HumanActivity_Prox",	"HumanActivity_Prox_SWAMP")
 
+phabstress_df2<-phab_df %>%
+  mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
+  select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
+  #just work with the stress measures
+  transmute(StationCode,
+            # SampleDate,
+            ReachStress = case_when(HumanActivity_Ext<12 &
+                                      HumanActivity_Int<12 & 
+                                      # HumanActivity_Prox<8 &
+                                      HumanActivity_Prox_SWAMP<6 ~0,
+                                    HumanActivity_Ext>=20~2,
+                                    HumanActivity_Int>=20~2,
+                                    # HumanActivity_Prox>=20~2,
+                                    HumanActivity_Prox_SWAMP>=10~2,
+                                    T~1 )) %>%
+  group_by(StationCode) %>%
+  summarise(ReachStressMax = max(ReachStress, na.rm=T)) %>%
+  ungroup() %>%
+  mutate(ReachStress_Class = case_when(ReachStressMax==0~"Low",
+                                       ReachStressMax==1~"Med",
+                                       ReachStressMax==0~"High",
+                                       T~"Other"))
+
+gis_stress_df<-gis_df %>%
+  # names()
+  select(StationCode,
+         starts_with(c("ag_","code_21", "urban","road","paved","permanmande","invdamdist","mines") %>%sort())) %>%
+  # skimr::skim()
+  mutate(GIS_stress_Ode = 
+           case_when(ag_2011_1k<3 & ag_2011_5k<3 & ag_2011_ws<3 &
+                       code_21_2011_1k<7 & code_21_2011_5k<7 & code_21_2011_ws<10 &
+                       urban_2011_1k<3 & urban_2011_5k<3 & urban_2011_ws<3 &
+                       urban_2011_1k + ag_2011_1k <5 & urban_2011_5k + ag_2011_5k <5 & urban_2011_ws + ag_2011_ws<5 &
+                       roaddens_1k<2 & roaddens_5k<2 & roaddens_ws<2 &
+                       paved_int_1k<5 & paved_int_5k<10 & paved_int_ws<50 &
+                       # invdamdist > .1 &
+                       mines_5k ==0 ~0,
+                     
+                     ag_2011_1k>=50~2, ag_2011_5k >=50~2, ag_2011_ws>=50~2,
+                     code_21_2011_1k>=50~2, code_21_2011_5k >=50~2, code_21_2011_ws>=50~2,
+                     urban_2011_1k>=50~2, urban_2011_5k >=50~2, urban_2011_ws>=50~2,
+                     
+                     T~1)
+         ) 
+  # group_by(GIS_stress_Ode) %>% tally()
+
+site_status_df<-tibble(
+  StationCode = c(phab_df$StationCode, gis_df$StationCode) %>%
+    unique() %>% sort()
+) %>%
+  left_join(    phabstress_df2  ) %>%
+  left_join(gis_stress_df) %>%
+  transmute(StationCode,
+            ReachStressMax, GIS_stress_Ode,
+            RefStatusFinal = case_when(ReachStressMax==2~"High",
+                                       GIS_stress_Ode==2~"High",
+                                       ReachStressMax==1~"Med",
+                                       GIS_stress_Ode==1~"Med",
+                                       ReachStressMax==0~"Low",
+                                       GIS_stress_Ode==0~"Low",
+                                       T~"Unknown"
+                                       ))
+site_status_df %>%
+  group_by(RefStatusFinal) %>% tally()
+
+
+write_csv(site_status_df, "Data/NonBioData/site_status_df.csv")
+
+library(sf)
+site_status_df %>%
+  inner_join(gis_df %>%
+               select(StationCode, new_lat, new_long)) %>%
+  st_as_sf(coords=c("new_long","new_lat"),
+           crs=4326)  %>%
+  ggplot()+
+  geom_sf(aes(color=RefStatusFinal))
