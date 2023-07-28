@@ -6,26 +6,12 @@ library(ggplot2)
 #Load GIS data
 
 #Load habitat data
-phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07252023.csv") %>%
-  mutate(ReachStress = case_when(HumanActivity_Ext<12 &
-                                   HumanActivity_Int<12 & 
-                                   # HumanActivity_Prox<8 &
-                                   HumanActivity_Prox_SWAMP<6 ~0,
-                                 HumanActivity_Ext>=20~2,
-                                 HumanActivity_Int>=20~2,
-                                 # HumanActivity_Prox>=20~2,
-                                 HumanActivity_Prox_SWAMP>=10~2,
-                                 T~1 ))
+phab_df<-read_csv("Data/NonBioData/Habitat/PHAB_Metrics_07272023.csv")
+skimr::skim(phab_df)
 
-ref_sites<-phab_df %>%
-  group_by(StationCode) %>%
-  summarise(ReachStressMax = max(ReachStress, na.rm=T)) %>%
-  ungroup() %>%
-  mutate(StressLevel = case_when(ReachStressMax==0~"Low",
-                                 ReachStressMax==1~"Med",
-                                 ReachStressMax==2~"High",
-                                 T~"Other"))
-ref_sites %>% group_by(StressLevel) %>% tally()
+ref_sites<-read_csv("Data/NonBioData/site_status_df.csv")
+ref_sites %>% group_by(RefStatusFinal) %>% tally()
+
 #Load bio data, for assessing sensitivity
 bug_mets_lu<-read_csv("Data/BioData/Arthros/bug_metric_lu_07252023.csv") %>%
   mutate(Metric_short=str_sub(Metric, 3, nchar(Metric)))
@@ -96,7 +82,7 @@ bio_data_df<-arth_df_long %>%
   filter(MetricValue>-Inf) %>%
   filter(!str_detect(Metric_short, "_KRich")) %>%
   filter(!str_detect(Metric_short, "_KAbund")) %>%
-  left_join(ref_sites %>% select(StationCode, StressLevel))
+  left_join(ref_sites %>% select(StationCode, RefStatusFinal))
 
 metric_summary<-bio_data_df  %>%
   group_by(Metric, Metric_short, MetricGroup, MetricForm) %>%
@@ -105,13 +91,13 @@ metric_summary<-bio_data_df  %>%
     unique_values = unique(MetricValue) %>% length(),
     PctDom = sum(MetricValue %in% getmode(MetricValue))/length(MetricValue),
     
-    F_stat = lm(MetricValue~StressLevel) %>%
+    F_stat = lm(MetricValue~RefStatusFinal) %>%
       broom::glance() %>%
       select(statistic) %>% 
       unlist(),
     
-    # t_stat = t.test(MetricValue~StressLevel, 
-    #                 data= .%>% filter(StressLevel!="Med")) %>%
+    # t_stat = t.test(MetricValue~RefStatusFinal, 
+    #                 data= .%>% filter(RefStatusFinal!="Med")) %>%
     #   broom::glance() %>%
     #   select(statistic) %>% 
     #   unlist()
@@ -126,13 +112,14 @@ metric_summary$t_stat <-sapply(1:nrow(metric_summary), function(i){
   else
   {
     met.i = metric_summary$Metric[i]
+    print(met.i)
     xdf = arth_df_long %>%
       bind_rows(bryo_df_long) %>%
       filter(MetricValue>-Inf) %>%
       filter(Metric==met.i) %>%
-      left_join(ref_sites %>% select(StationCode, StressLevel)) %>%
-      filter(StressLevel %in% c("Low","High"))
-    t_xdf = t.test(MetricValue~StressLevel, data = xdf)
+      left_join(ref_sites %>% select(StationCode, RefStatusFinal)) %>%
+      filter(RefStatusFinal %in% c("Low","High"))
+    t_xdf = t.test(MetricValue~RefStatusFinal, data = xdf)
     t_xdf$statistic
   }
 })

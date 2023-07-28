@@ -21,19 +21,24 @@ bryo_df<-read_csv("Data/BioData/Bryos/bryo_metrics_07262023_v2.csv")
 
 bug_mets_lu<-read_csv("Data/BioData/Arthros/bug_metric_lu_07252023.csv") %>%
   mutate(Metric_short=str_sub(Metric, 3, nchar(Metric)))
-# bug_mets<-bug_mets_lu$Metric_short
-setdiff(gis_df$StationCode, phab_df$StationCode)
-setdiff(phab_df$StationCode, gis_df$StationCode ) 
 
-setdiff(gis_df$StationCode, arthro_df$StationCode)
-setdiff(arthro_df$StationCode, gis_df$StationCode ) 
+#Review data gaps
+#sites with bug data but no bryo data
+setdiff(arthro_df$StationCode, bryo_df$StationCode ) %>% write_clip() 
 
-setdiff(gis_df$StationCode, bryo_df$StationCode)
-setdiff(bryo_df$StationCode, gis_df$StationCode ) 
+#sites with bryo data but no bug data
+#Should be a lot outside socal
+setdiff( bryo_df$StationCode, arthro_df$StationCode ) %>% write_clip() 
 
-phab_df$StationCode %>%
-  setdiff(arthro_df$StationCode) %>%
-  setdiff(bryo_df$StationCode)
+# Sites with bio data (bugs or bryos) but no gis data
+setdiff( c(bryo_df$StationCode, arthro_df$StationCode ), gis_df$StationCode ) %>% write_clip() 
+
+# Sites with bio data (bugs or bryos) but no habitat data
+setdiff( c(bryo_df$StationCode, arthro_df$StationCode ), phab_df $StationCode ) %>% write_clip() 
+
+#sites with habitat data, but no bio data
+setdiff(phab_df $StationCode , c(bryo_df$StationCode, arthro_df$StationCode )) %>% write_clip() 
+
 
 arthro_df$StationCode %>%
   setdiff(phab_df$StationCode) %>%
@@ -71,205 +76,205 @@ bryo_df$StationCode %>%
 #             "Dispersal_KRich", "Dispersal_KAbund", "DisperserPoor_Rich", "DisperserPoor_RelRich", "DisperserPoor_Abund", "DisperserPoor_RelAbund", "DisperserGood_Rich", "DisperserGood_RelRich", "DisperserGood_Abund", "DisperserGood_RelAbund", 
 #             "TempTol_KRich", "TempTol_KAbund", "TempTolHigh_Rich", "TempTolHigh_RelRich", "TempTolHigh_Abund", "TempTolHigh_RelAbund", "TempTolAverage", "TempTolMax")
 
-setdiff(bug_mets, names(arthro_df))
-setdiff(names(arthro_df), bug_mets)
-
-
-#Convert arth data to long format and correct the metric name
-
-arth_df_long<-arthro_df %>%
-  select(StationCode, SampleDate, CollectionMethodCode, all_of(bug_mets_lu$Metric_short)) %>%
-  pivot_longer(cols=all_of(bug_mets_lu$Metric_short), 
-               names_to="Metric_short", 
-               values_to="BugMet_value", 
-               values_drop_na = T) %>%
-  mutate(Metric = case_when(CollectionMethodCode=="TerInvt_T_DS"~paste0("T_",Metric_short),
-                            CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",Metric_short),
-                            T~Metric_short)) %>%
-  #Get rid of these interim calc metrics
-  filter(!str_detect(Metric,"KRich")) %>%
-  filter(!str_detect(Metric,"KAbund")) %>%
-  inner_join(bug_mets_lu %>% select(Metric, Method, MetricForm, MetricGroup=Group))
-
-arth_df_long %>% clipr::write_clip()
-
-# arth_df_long %>% filter(MetricForm=="Other") %>% select(BugMet2) %>% unique()
-arth_df_long %>%   group_by(MetricForm) %>% tally()
-
-#####ASSESS BIO RESPONSES TO STRESS#####
-
-#Calculate Spearman's Rho between all bio metrics and all hab/gis metrics [stressors only]
-#Create scatterplots of strong relationships
-
-##Sepeicifically, look at phab stress measures
-#How correlated are they to eachother?
-#Look at hab stress metrics and identify appropriate cutoffs through visual inspections of relationships
-#Can you pick the "best" one?
-#How concordant are they based on cutoffs?
-#Is one more sensitive than the others?
-
-#Identify habitat stress metrics
-hab_stress_mets<-c("HumanActivity_Ext",	"HumanActivity_Int",	"HumanActivity_Prox",	"HumanActivity_Prox_SWAMP")
-
-#Create a long-format dataframe with just these stress metrics
-phabstress_df<-phab_df %>%
-  mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
-  select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
-  #just work with the stress measures
-  pivot_longer(cols=all_of(hab_stress_mets), names_to="PHABMet", values_to = "PHABMet_value", values_drop_na = T) %>%
-  group_by(PHABMet) %>%
-  mutate(MetMax=max(PHABMet_value)) %>%
-  ungroup() %>%
-  mutate(PHABMet_value_rescaled=PHABMet_value/MetMax)
-# skimr::skim(phabstress_df)
-
-#Join with the long arthropod data to create scatterplots
-arth_phabstress<-inner_join(arth_df_long, phabstress_df, relationship = "many-to-many")
-
-phabstress_v_bugmets_richness<-ggplot(data=arth_phabstress %>%
-                                        filter(MetricForm=="Rich") ,
-                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
-  geom_smooth(aes(color=PHABMet),  se=F)+
-  facet_grid(MetricGroup~Method, scales="free")+
-  theme_bw()+
-  theme(strip.text.y = element_text(angle=0))+
-  ggtitle("Richness metrics")
-ggsave(phabstress_v_bugmets_richness, filename="Figures/phabstress_v_bugmets_richness.png", height=8, width=8)
-
-phabstress_v_bugmets_relrichness<-ggplot(data=arth_phabstress %>%
-                                           filter(MetricForm=="RelRich") ,
-                                         aes(x=PHABMet_value_rescaled, y=BugMet_value))+
-  geom_smooth(aes(color=PHABMet),  se=F)+
-  facet_grid(MetricGroup~Method, scales="free")+
-  theme_bw()+
-  theme(strip.text.y = element_text(angle=0))+
-  ggtitle("Relative richness metrics")
-ggsave(phabstress_v_bugmets_relrichness, filename="Figures/phabstress_v_bugmets_relrichness.png", height=8, width=8)
-
-phabstress_v_bugmets_abund<-ggplot(data=arth_phabstress %>%
-                                     filter(MetricForm=="Abund") ,
-                                   aes(x=PHABMet_value_rescaled, y=BugMet_value))+
-  geom_smooth(aes(color=PHABMet),  se=F)+
-  facet_grid(MetricGroup~Method, scales="free")+
-  theme_bw()+
-  theme(strip.text.y = element_text(angle=0))+
-  ggtitle("Abundance metrics")
-ggsave(phabstress_v_bugmets_abund, filename="Figures/phabstress_v_bugmets_abund.png", height=8, width=8)
-
-phabstress_v_bugmets_relabund<-ggplot(data=arth_phabstress %>%
-                                        filter(MetricForm=="RelAbund") ,
-                                      aes(x=PHABMet_value_rescaled, y=BugMet_value))+
-  geom_smooth(aes(color=PHABMet),  se=F)+
-  facet_grid(MetricGroup~Method, scales="free")+
-  theme_bw()+
-  theme(strip.text.y = element_text(angle=0))+
-  ggtitle("Relative abundance metrics")
-ggsave(phabstress_v_bugmets_relabund, filename="Figures/phabstress_v_bugmets_relabund.png", height=8, width=8)
-
-phabstress_v_bugmets_other<-ggplot(data=arth_phabstress %>%
-                                     filter(MetricForm=="Other") ,
-                                   aes(x=PHABMet_value_rescaled, y=BugMet_value))+
-  geom_smooth(aes(color=PHABMet),  se=F)+
-  facet_grid(MetricGroup~Method, scales="free")+
-  theme_bw()+
-  theme(strip.text.y = element_text(angle=0))+
-  ggtitle("Other metrics")
-ggsave(phabstress_v_bugmets_other, filename="Figures/phabstress_v_bugmets_other.png", height=8, width=8)
-
-phabstress_df %>%
-  select(PHABMet, MetMax)  %>%
-  unique()
-
-
-
-
-# Propose cutoffs that divide the data set into ~thirds:
-# cutoffs_df<-crossing(
-#   Ext = 1:24,
-#   Int=1:24,
-#   Prox=seq(from=1, to=10, by=.5)
-# )
+# setdiff(bug_mets, names(arthro_df))
+# setdiff(names(arthro_df), bug_mets)
 # 
-# cutoffs_df$Low_n <- sapply(1:nrow(cutoffs_df), function(i){
-#   xdf = phab_df %>%
-#     filter(StationCode %in% arth_df_long$StationCode) %>%
-#     mutate(Stress=case_when(HumanActivity_Ext< cutoffs_df$Ext[i] &
-#                               HumanActivity_Int< cutoffs_df$Int[i] & 
-#                               # HumanActivity_Prox<8 &
-#                               HumanActivity_Prox_SWAMP<cutoffs_df$Prox[i] ~"Low",
-#                             T~"Not Low"))
-#   nrow(xdf %>%filter(Stress=="Low"))
-# })
 # 
-# cutoffs_df %>% filter(Low_n>=12)
-
-phab_df2<-phab_df %>%
-  mutate(ReachStress = case_when(HumanActivity_Ext<12 &
-                                   HumanActivity_Int<12 & 
-                                   # HumanActivity_Prox<8 &
-                                   HumanActivity_Prox_SWAMP<6 ~"Low",
-                                 HumanActivity_Ext>=20~"High",
-                                 HumanActivity_Int>=20~"High",
-                                 # HumanActivity_Prox>=20~"High",
-                                 HumanActivity_Prox_SWAMP>=10~"High",
-                                 T~"Med" )) %>%
-  inner_join(arthro_df %>% select(StationCode) %>% unique()) %>%
-  group_by(ReachStress) %>% tally()
-
-
-ggplot(data=phabstress_df, aes(x=PHABMet_value))+
-  geom_histogram(aes(fill=PHABMet))
-
-
-phab_df %>%
-  skimr::skim()
-
-library(corrplot)
-
-
-
-ggplot(aes(x=PHABMet_value, y=BugMet_value))+
-  # geom_point()+
-  geom_smooth(aes(color=PHABMet), method=lm)+
-  facet_wrap(~BugMet, scales="free")+
-  theme_bw()+
-  theme(strip.text.y=element_text(angle=0))+
-  coord_cartesian(xlim=c(0,30))+
-  scale_color_brewer(palette="Set1")
-
-
-
-phab_df %>%
-  rename(HumanActivity_Prox=HumanActivity_Prox.x) %>%
-  select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
-  mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
-  pivot_longer(cols=all_of(hab_stress_mets), names_to="PHABMet", values_to = "PHABMet_value", values_drop_na = T) %>%
-  
-  inner_join(arthro_df %>%
-               select(StationCode, SampleDate, CollectionMethodCode,
-                      ends_with("_Rich")) %>%
-               pivot_longer(cols=ends_with("_Rich"), names_to="BugMet", values_to="BugMet_value", values_drop_na = T) %>%
-               mutate(BugMet2 = case_when(CollectionMethodCode=="TerInvt_T_DS"~paste0("T_",BugMet),
-                                          CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",BugMet),
-                                          T~BugMet))
-  ) %>%
-  group_by(PHABMet, BugMet, BugMet2) %>%
-  summarise(Rho = cor(PHABMet_value, BugMet_value, use="pairwise.complete", method="spearman")) %>%
-  ungroup() %>%
-  mutate(RhoSq = Rho^2) %>%
-  arrange(-RhoSq) %>%
-  mutate(Method = case_when(str_detect(BugMet2,"V_")~"Veg",
-                            str_detect(BugMet2,"T_")~"Trap",
-                            T~"Other")) %>%
-  
-  ggplot(aes(x=BugMet, y=Rho))+
-  geom_point(aes(color=PHABMet, shape=Method, group=Method,
-                 size=RhoSq>.1), position=position_dodge())+
-  geom_hline(yintercept=0)+
-  scale_size_manual(values=c(1,2))+
-  # facet_wrap(~Method)+
-  coord_flip()
-
+# #Convert arth data to long format and correct the metric name
+# 
+# arth_df_long<-arthro_df %>%
+#   select(StationCode, SampleDate, CollectionMethodCode, all_of(bug_mets_lu$Metric_short)) %>%
+#   pivot_longer(cols=all_of(bug_mets_lu$Metric_short), 
+#                names_to="Metric_short", 
+#                values_to="BugMet_value", 
+#                values_drop_na = T) %>%
+#   mutate(Metric = case_when(CollectionMethodCode=="TerInvt_T_DS"~paste0("T_",Metric_short),
+#                             CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",Metric_short),
+#                             T~Metric_short)) %>%
+#   #Get rid of these interim calc metrics
+#   filter(!str_detect(Metric,"KRich")) %>%
+#   filter(!str_detect(Metric,"KAbund")) %>%
+#   inner_join(bug_mets_lu %>% select(Metric, Method, MetricForm, MetricGroup=Group))
+# 
+# arth_df_long %>% clipr::write_clip()
+# 
+# # arth_df_long %>% filter(MetricForm=="Other") %>% select(BugMet2) %>% unique()
+# arth_df_long %>%   group_by(MetricForm) %>% tally()
+# 
+# #####ASSESS BIO RESPONSES TO STRESS#####
+# 
+# #Calculate Spearman's Rho between all bio metrics and all hab/gis metrics [stressors only]
+# #Create scatterplots of strong relationships
+# 
+# ##Sepeicifically, look at phab stress measures
+# #How correlated are they to eachother?
+# #Look at hab stress metrics and identify appropriate cutoffs through visual inspections of relationships
+# #Can you pick the "best" one?
+# #How concordant are they based on cutoffs?
+# #Is one more sensitive than the others?
+# 
+# #Identify habitat stress metrics
+# hab_stress_mets<-c("HumanActivity_Ext",	"HumanActivity_Int",	"HumanActivity_Prox",	"HumanActivity_Prox_SWAMP")
+# 
+# #Create a long-format dataframe with just these stress metrics
+# phabstress_df<-phab_df %>%
+#   mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
+#   select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
+#   #just work with the stress measures
+#   pivot_longer(cols=all_of(hab_stress_mets), names_to="PHABMet", values_to = "PHABMet_value", values_drop_na = T) %>%
+#   group_by(PHABMet) %>%
+#   mutate(MetMax=max(PHABMet_value)) %>%
+#   ungroup() %>%
+#   mutate(PHABMet_value_rescaled=PHABMet_value/MetMax)
+# # skimr::skim(phabstress_df)
+# 
+# #Join with the long arthropod data to create scatterplots
+# arth_phabstress<-inner_join(arth_df_long, phabstress_df, relationship = "many-to-many")
+# 
+# phabstress_v_bugmets_richness<-ggplot(data=arth_phabstress %>%
+#                                         filter(MetricForm=="Rich") ,
+#                                       aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+#   geom_smooth(aes(color=PHABMet),  se=F)+
+#   facet_grid(MetricGroup~Method, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y = element_text(angle=0))+
+#   ggtitle("Richness metrics")
+# ggsave(phabstress_v_bugmets_richness, filename="Figures/phabstress_v_bugmets_richness.png", height=8, width=8)
+# 
+# phabstress_v_bugmets_relrichness<-ggplot(data=arth_phabstress %>%
+#                                            filter(MetricForm=="RelRich") ,
+#                                          aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+#   geom_smooth(aes(color=PHABMet),  se=F)+
+#   facet_grid(MetricGroup~Method, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y = element_text(angle=0))+
+#   ggtitle("Relative richness metrics")
+# ggsave(phabstress_v_bugmets_relrichness, filename="Figures/phabstress_v_bugmets_relrichness.png", height=8, width=8)
+# 
+# phabstress_v_bugmets_abund<-ggplot(data=arth_phabstress %>%
+#                                      filter(MetricForm=="Abund") ,
+#                                    aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+#   geom_smooth(aes(color=PHABMet),  se=F)+
+#   facet_grid(MetricGroup~Method, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y = element_text(angle=0))+
+#   ggtitle("Abundance metrics")
+# ggsave(phabstress_v_bugmets_abund, filename="Figures/phabstress_v_bugmets_abund.png", height=8, width=8)
+# 
+# phabstress_v_bugmets_relabund<-ggplot(data=arth_phabstress %>%
+#                                         filter(MetricForm=="RelAbund") ,
+#                                       aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+#   geom_smooth(aes(color=PHABMet),  se=F)+
+#   facet_grid(MetricGroup~Method, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y = element_text(angle=0))+
+#   ggtitle("Relative abundance metrics")
+# ggsave(phabstress_v_bugmets_relabund, filename="Figures/phabstress_v_bugmets_relabund.png", height=8, width=8)
+# 
+# phabstress_v_bugmets_other<-ggplot(data=arth_phabstress %>%
+#                                      filter(MetricForm=="Other") ,
+#                                    aes(x=PHABMet_value_rescaled, y=BugMet_value))+
+#   geom_smooth(aes(color=PHABMet),  se=F)+
+#   facet_grid(MetricGroup~Method, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y = element_text(angle=0))+
+#   ggtitle("Other metrics")
+# ggsave(phabstress_v_bugmets_other, filename="Figures/phabstress_v_bugmets_other.png", height=8, width=8)
+# 
+# phabstress_df %>%
+#   select(PHABMet, MetMax)  %>%
+#   unique()
+# 
+# 
+# 
+# 
+# # Propose cutoffs that divide the data set into ~thirds:
+# # cutoffs_df<-crossing(
+# #   Ext = 1:24,
+# #   Int=1:24,
+# #   Prox=seq(from=1, to=10, by=.5)
+# # )
+# # 
+# # cutoffs_df$Low_n <- sapply(1:nrow(cutoffs_df), function(i){
+# #   xdf = phab_df %>%
+# #     filter(StationCode %in% arth_df_long$StationCode) %>%
+# #     mutate(Stress=case_when(HumanActivity_Ext< cutoffs_df$Ext[i] &
+# #                               HumanActivity_Int< cutoffs_df$Int[i] & 
+# #                               # HumanActivity_Prox<8 &
+# #                               HumanActivity_Prox_SWAMP<cutoffs_df$Prox[i] ~"Low",
+# #                             T~"Not Low"))
+# #   nrow(xdf %>%filter(Stress=="Low"))
+# # })
+# # 
+# # cutoffs_df %>% filter(Low_n>=12)
+# 
+# phab_df2<-phab_df %>%
+#   mutate(ReachStress = case_when(HumanActivity_Ext<12 &
+#                                    HumanActivity_Int<12 & 
+#                                    # HumanActivity_Prox<8 &
+#                                    HumanActivity_Prox_SWAMP<6 ~"Low",
+#                                  HumanActivity_Ext>=20~"High",
+#                                  HumanActivity_Int>=20~"High",
+#                                  # HumanActivity_Prox>=20~"High",
+#                                  HumanActivity_Prox_SWAMP>=10~"High",
+#                                  T~"Med" )) %>%
+#   inner_join(arthro_df %>% select(StationCode) %>% unique()) %>%
+#   group_by(ReachStress) %>% tally()
+# 
+# 
+# ggplot(data=phabstress_df, aes(x=PHABMet_value))+
+#   geom_histogram(aes(fill=PHABMet))
+# 
+# 
+# phab_df %>%
+#   skimr::skim()
+# 
+# library(corrplot)
+# 
+# 
+# 
+# ggplot(aes(x=PHABMet_value, y=BugMet_value))+
+#   # geom_point()+
+#   geom_smooth(aes(color=PHABMet), method=lm)+
+#   facet_wrap(~BugMet, scales="free")+
+#   theme_bw()+
+#   theme(strip.text.y=element_text(angle=0))+
+#   coord_cartesian(xlim=c(0,30))+
+#   scale_color_brewer(palette="Set1")
+# 
+# 
+# 
+# phab_df %>%
+#   rename(HumanActivity_Prox=HumanActivity_Prox.x) %>%
+#   select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
+#   mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
+#   pivot_longer(cols=all_of(hab_stress_mets), names_to="PHABMet", values_to = "PHABMet_value", values_drop_na = T) %>%
+#   
+#   inner_join(arthro_df %>%
+#                select(StationCode, SampleDate, CollectionMethodCode,
+#                       ends_with("_Rich")) %>%
+#                pivot_longer(cols=ends_with("_Rich"), names_to="BugMet", values_to="BugMet_value", values_drop_na = T) %>%
+#                mutate(BugMet2 = case_when(CollectionMethodCode=="TerInvt_T_DS"~paste0("T_",BugMet),
+#                                           CollectionMethodCode=="TerInvt_V_DS"~paste0("V_",BugMet),
+#                                           T~BugMet))
+#   ) %>%
+#   group_by(PHABMet, BugMet, BugMet2) %>%
+#   summarise(Rho = cor(PHABMet_value, BugMet_value, use="pairwise.complete", method="spearman")) %>%
+#   ungroup() %>%
+#   mutate(RhoSq = Rho^2) %>%
+#   arrange(-RhoSq) %>%
+#   mutate(Method = case_when(str_detect(BugMet2,"V_")~"Veg",
+#                             str_detect(BugMet2,"T_")~"Trap",
+#                             T~"Other")) %>%
+#   
+#   ggplot(aes(x=BugMet, y=Rho))+
+#   geom_point(aes(color=PHABMet, shape=Method, group=Method,
+#                  size=RhoSq>.1), position=position_dodge())+
+#   geom_hline(yintercept=0)+
+#   scale_size_manual(values=c(1,2))+
+#   # facet_wrap(~Method)+
+#   coord_flip()
+# 
 
 
 ####SCREEN
@@ -287,14 +292,14 @@ phabstress_df2<-phab_df %>%
   #just work with the stress measures
   mutate(StationCode,
             # SampleDate,
-            ReachStress = case_when(HumanActivity_Ext<12 &
-                                      HumanActivity_Int<12 & 
+            ReachStress = case_when(HumanActivity_Ext<6 &
+                                      HumanActivity_Int<6 & 
                                       # HumanActivity_Prox<8 &
-                                      HumanActivity_Prox_SWAMP<6 ~0,
-                                    HumanActivity_Ext>=20~2,
-                                    HumanActivity_Int>=20~2,
+                                      HumanActivity_Prox_SWAMP<3 ~0,
+                                    HumanActivity_Ext>=15~2,
+                                    HumanActivity_Int>=15~2,
                                     # HumanActivity_Prox>=20~2,
-                                    HumanActivity_Prox_SWAMP>=10~2,
+                                    HumanActivity_Prox_SWAMP>=6~2,
                                     T~1 )) %>%
   group_by(StationCode) %>%
   summarise(ReachStressMax = max(ReachStress, na.rm=T),
@@ -302,6 +307,8 @@ phabstress_df2<-phab_df %>%
             HumanActivity_Ext_Max =max(HumanActivity_Ext, na.rm = T),
             HumanActivity_Prox_Max =max(HumanActivity_Prox_SWAMP, na.rm = T))  %>%
   ungroup()
+
+phabstress_df2 %>% group_by(ReachStressMax) %>% tally()
 
 gis_stress_df<-gis_df %>%
   # names()
@@ -318,9 +325,9 @@ gis_stress_df<-gis_df %>%
                        # invdamdist > .1 &
                        mines_5k ==0 ~0,
                      
-                     ag_2011_1k>=50~2, ag_2011_5k >=50~2, ag_2011_ws>=50~2,
+                     ag_2011_1k+urban_2011_1k>=50~2, ag_2011_5k+ urban_2011_5k>=50~2, ag_2011_ws+urban_2011_ws>=50~2,
                      code_21_2011_1k>=50~2, code_21_2011_5k >=50~2, code_21_2011_ws>=50~2,
-                     urban_2011_1k>=50~2, urban_2011_5k >=50~2, urban_2011_ws>=50~2,
+                     # urban_2011_1k>=50~2, urban_2011_5k >=50~2, urban_2011_ws>=50~2,
                      
                      T~1)
          ) 
@@ -338,14 +345,17 @@ site_status_df<-tibble(
                                        GIS_stress_Ode==2~"High",
                                        ReachStressMax==1~"Med",
                                        GIS_stress_Ode==1~"Med",
-                                       ReachStressMax==0~"Low",
+                                       ReachStressMax==0 & GIS_stress_Ode ~"Low",
                                        GIS_stress_Ode==0~"Low",
-                                       T~"Unknown"
+                                       is.na(GIS_stress_Ode) ~"Unknown",
+                                       T~"Other"
                                        ))
 site_status_df %>%
   group_by(RefStatusFinal) %>% tally()
 
-ggplot(data=site_status_df)
+ggplot(data=site_status_df, aes(x=GIS_stress_Ode, y=ReachStressMax))+
+  geom_point( position = position_jitter(height=.2, width=.2)) +
+  geom_smooth(method=lm)
 
 write_csv(site_status_df, "Data/NonBioData/site_status_df.csv")
 
