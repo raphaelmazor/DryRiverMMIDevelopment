@@ -4,7 +4,7 @@
 
 library(tidyverse)
 library(ggplot2)
-
+library(clipr)
 ######LOAD DATA######
 
 #Load GIS data
@@ -285,22 +285,43 @@ bryo_df$StationCode %>%
 
 hab_stress_mets<-c("HumanActivity_Ext",	"HumanActivity_Int",	"HumanActivity_Prox",	"HumanActivity_Prox_SWAMP")
 
+#Calculate terciles
+phab_df %>%
+  mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
+  select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
+  filter(StationCode %in% arthro_df$StationCode) %>%
+  pivot_longer(cols=all_of(hab_stress_mets)) %>%
+  group_by(name) %>%
+  summarise(
+    T1 = quantile(value, probs=0.333, na.rm=T),
+    T2 = quantile(value, probs=0.667, na.rm=T)
+  )
+
+
 phabstress_df2<-phab_df %>%
   mutate(SampleDate=lubridate::mdy(SampleDate)) %>%
   select(StationCode, SampleDate, all_of(hab_stress_mets)) %>%
   # skimr::skim()
   #just work with the stress measures
   mutate(StationCode,
-            # SampleDate,
-            ReachStress = case_when(HumanActivity_Ext<6 &
-                                      HumanActivity_Int<6 & 
-                                      # HumanActivity_Prox<8 &
-                                      HumanActivity_Prox_SWAMP<3 ~0,
-                                    HumanActivity_Ext>=15~2,
-                                    HumanActivity_Int>=15~2,
-                                    # HumanActivity_Prox>=20~2,
-                                    HumanActivity_Prox_SWAMP>=6~2,
-                                    T~1 )) %>%
+         # SampleDate,
+         #Use ~terciles, round up
+         
+         ReachStress = 
+           case_when(HumanActivity_Ext<10 &
+                       HumanActivity_Int<10 & 
+                       HumanActivity_Prox_SWAMP<4 ~0,
+                     HumanActivity_Ext>=18~2,
+                     HumanActivity_Int>=19~2,
+                     HumanActivity_Prox_SWAMP>=7~2,
+                     T~1 )) %>%
+           # case_when(HumanActivity_Ext<10 &
+           #             HumanActivity_Int<10 & 
+           #             HumanActivity_Prox_SWAMP<6 ~0,
+           #           HumanActivity_Ext>=16~2,
+           #           HumanActivity_Int>=16~2,
+           #           HumanActivity_Prox_SWAMP>=12~2,
+           #           T~1 )) %>%
   group_by(StationCode) %>%
   summarise(ReachStressMax = max(ReachStress, na.rm=T),
             HumanActivity_Int_Max =max(HumanActivity_Int, na.rm = T),
@@ -330,8 +351,13 @@ gis_stress_df<-gis_df %>%
                      # urban_2011_1k>=50~2, urban_2011_5k >=50~2, urban_2011_ws>=50~2,
                      
                      T~1)
-         ) 
-  # group_by(GIS_stress_Ode) %>% tally()
+  ) 
+# group_by(GIS_stress_Ode) %>% tally()
+gis_stress_df %>%
+  inner_join(arthro_df) %>%
+  group_by(GIS_stress_Ode) %>%
+  tally()
+
 
 site_status_df<-tibble(
   StationCode = c(phab_df$StationCode, gis_df$StationCode) %>%
@@ -349,9 +375,30 @@ site_status_df<-tibble(
                                        GIS_stress_Ode==0~"Low",
                                        is.na(GIS_stress_Ode) ~"Unknown",
                                        T~"Other"
-                                       ))
+            ))
 site_status_df %>%
   group_by(RefStatusFinal) %>% tally()
+
+site_status_df %>%
+  filter(StationCode %in% arthro_df$StationCode) %>%
+  select(ReachStressMax, GIS_stress_Ode, StationCode) %>%
+  unique() %>%
+  group_by(ReachStressMax, GIS_stress_Ode) %>%
+  tally() %>% 
+  pivot_wider(names_from=ReachStressMax, values_from = n, values_fill = 0) %>%
+  rename(LowStress_reach=`0`, MedStress_reach=`1`, HighStress_reach=`2`) %>%
+  mutate(WatershedStress = case_when(GIS_stress_Ode==0~"LowStress_shed",
+                                     GIS_stress_Ode==1~"MedStress_shed",
+                                     GIS_stress_Ode==2~"HighStress_shed", 
+                                     T~"Other")) %>%
+  select(-GIS_stress_Ode)
+
+site_status_df %>%
+  inner_join(arthro_df) %>%
+  select(StationCode, RefStatusFinal) %>% 
+  unique() %>%
+  group_by(RefStatusFinal) %>% 
+  tally()
 
 ggplot(data=site_status_df, aes(x=GIS_stress_Ode, y=ReachStressMax))+
   geom_point( position = position_jitter(height=.2, width=.2)) +
